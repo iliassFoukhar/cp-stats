@@ -57,7 +57,6 @@ const leetcodeProfile = () => {
         const {LEETCODE_API, LEETCODE_HANDLE} = process.env;
         const url = `${LEETCODE_API}${LEETCODE_HANDLE}`;
         await axios.get(url).then((res) => {
-            console.log(res.data);
             return resolve({response: res.data, success : true});
         }).catch(e => {
             return resolve({message: "Error: Connection Failed!", success : false});
@@ -68,13 +67,39 @@ const leetcodeProfile = () => {
 
 const getLeetcode = async () => {
     const data = await leetcodeProfile();
-
     if(!data.success){
         return data.message;
     }
-    console.log(data.response);
     return data.response;
 };
+
+
+const getAtcoder = () => {
+    return new Promise(async (resolve) => {
+        const {ATCODER, ATCODER_HANDLE} = process.env;
+        const url = `${ATCODER}${ATCODER_HANDLE}`;
+        await request(url, (error, response, html) => {
+            if(!error && response.statusCode === 200){
+                const $ = cheerio.load(html);
+                let res = {};
+                $(".dl-table.mt-2").find("tbody").each((i, data) => {
+                    const order = ["Rank", "Rating", "Highest Rating", "Rated Matches", "Last Competed"];
+                    let index = 0;
+                    for(let row of data.children){
+                        if(row.children){
+                            res[order[index++]] = $(row.children[1]).text().replace(/\n/g, "").replace(/\t/g, "");
+                    }}
+                    
+                });
+                
+                return resolve({response: res, success : true});
+            } else {
+                return resolve({success :false , message: "Error: Connection Failed!"});
+            }
+        });
+    });
+};
+
 
 
 const cp_stat = {
@@ -83,6 +108,9 @@ const cp_stat = {
     },
     leetcode : async () => {
         return await getLeetcode();
+    },
+    atcoder : async () => {
+        return await getAtcoder();
     }
 }
 
