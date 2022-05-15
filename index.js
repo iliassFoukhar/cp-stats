@@ -4,8 +4,6 @@ const axios = require('axios');
 const request = require("request-promise");
 const cheerio = require("cheerio");
 
-
-
 const codeforcesProfile = () => {
     return new Promise(async (resolve) => {
         const {CODEFORCES_API_ENDPOINT, CODEFORCES_API_HANDLE} = process.env;
@@ -54,11 +52,38 @@ const getCodeForces = async () => {
 }
 
 
-getCodeForces().then((res) => console.log(res));
+const leetcodeProfile = () => {
+    return new Promise(async (resolve) => {
+        const {LEETCODE_API, LEETCODE_HANDLE} = process.env;
+        const url = `${LEETCODE_API}${LEETCODE_HANDLE}`;
+        await axios.get(url).then((res) => {
+            console.log(res.data);
+            return resolve({response: res.data, success : true});
+        }).catch(e => {
+            return resolve({message: "Error: Connection Failed!", success : false});
+        });
+    });
+}
+
+
+const getLeetcode = async () => {
+    const data = await leetcodeProfile();
+
+    if(!data.success){
+        return data.message;
+    }
+    console.log(data.response);
+    return data.response;
+};
+
 
 const cp_stat = {
     codeforces: async () => {
         return await getCodeForces();
+    },
+    leetcode : async () => {
+        return await getLeetcode();
     }
 }
-module.exports
+
+module.exports = cp_stat;
