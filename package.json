@@ -1,7 +1,8 @@
 {
   "name": "cp_stat",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000c\u0000p\u0000-\u0000s\u0000t\u0000a\u0000t\u0000s\u0000\r\u0000 \u0000",
+  "description": "A module to import your competitive programming data from different platforms",
+  "devDependencies": {},
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
@@ -11,18 +12,24 @@
     "type": "git",
     "url": "git+https://github.com/iliassFoukhar/cp-stats.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/iliassFoukhar/cp-stats/issues"
   },
-  "homepage": "https://github.com/iliassFoukhar/cp-stats#readme",
+  "homepage": "https://github.com/iliassFoukhar/cp-stats",
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^16.0.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
-  }
+  },
+  "keywords": [
+    "codeforces",
+    "leetcode",
+    "Atcoder",
+    "competitive programming"
+  ],
+  "author" : "Iliass Foukhar <iliassfoukhar@gmail.com>"
+
 }
